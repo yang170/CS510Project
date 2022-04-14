@@ -1,0 +1,14 @@
+{
+    "name": "Check it",
+    "description": "Find reference for selected text",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "./background/background.js"
+    },
+    "permissions": ["storage", "activeTab", "scripting"],
+    "action": {
+        "default_popup": "./html/popup.html"
+    },
+    "options_page": "./html/options.html"
+}
