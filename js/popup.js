@@ -1,29 +1,3 @@
-// Grab the button
-let changeColor = document.getElementById("changeColor");
-
-// Set button color
-chrome.storage.sync.get("color", ({ color }) => {
-  changeColor.style.backgroundColor = color;
-});
-
-// When the button is clicked, inject setPageBackgroundColor into current page
-changeColor.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: setPageBackgroundColor,
-  });
-});
-
-// The body of this function will be executed as a content script inside the
-// current page
-function setPageBackgroundColor() {
-  chrome.storage.sync.get("color", ({ color }) => {
-    document.body.style.backgroundColor = color;
-  });
-}
-
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
@@ -42,10 +16,29 @@ getCurrentTab().then((res) => {
       target: { tabId: tabId },
       func: grab,
     },
-    (injectionResults) => {
-      console.log(injectionResults);
-      document.getElementById("selectedText").innerHTML =
-        injectionResults[0].result;
+    (selection) => {
+      selectedText = selection[0].result;
+
+      // if nothing is selected
+      if (selectedText === "") {
+        document.getElementById("selectedText").innerHTML =
+          "Please select some text";
+        document.getElementById("refrences").innerHTML = "No references found";
+        return;
+      }
+
+      console.log(selection);
+      document.getElementById("selectedText").innerHTML = selectedText;
+
+      const Http = new XMLHttpRequest();
+      const url = "http://localhost:5000/ref?text=" + selectedText;
+      Http.open("GET", url);
+      Http.send();
+
+      Http.onreadystatechange = (_event) => {
+        // TODO: error handling
+        document.getElementById("refrences").innerHTML = Http.responseText;
+      };
     }
   );
 });

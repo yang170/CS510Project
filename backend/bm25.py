@@ -13,8 +13,8 @@ def rank(text, size):
             - doi: doi of the article
             - abstract: abstract of the article
     """
-    example_result = [{'title': 't1', 'citations': 1, 'dio': '10.1007/978-3-540-46138-8_46',
+    example_result = [{'title': 'refrence 1', 'citations': 1, 'dio': '10.1007/978-3-540-46138-8_46',
                        'abstract': 'abstract1'},
-                      {'title': 't2', 'citations': 2, 'dio': '20.1007/978-3-540-46138-8_46',
+                      {'title': 'refrence 2', 'citations': 2, 'dio': '20.1007/978-3-540-46138-8_46',
                        'abstract': 'abstract2'}]
     return example_result
