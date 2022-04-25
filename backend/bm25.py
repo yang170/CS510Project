@@ -28,17 +28,25 @@ def parse_records(records):
     return results
 
 
+def get_corpus(records):
+    corpus = []
+    for record in records:
+        corpus.append(record['abstract'])
+    return corpus
+
+
 def rank(text, size):
     """
     Fetch top @code{size} docs related to the given @code{text}
     :text str: user input
     :size int: number of relevent docs to return
-    :return [{title: str, publicationName: str, dio: str, abstract: str, url: str}]:
+    :return [{title: str, publicationName: str, doi: str, abstract: str, url: str}]:
         a list of dictionaries, each dictionary contains four keys:
             - title: title of the article
-            - citations: number of times the article has been cited
+            - publicationName: name of the publisher
             - doi: doi of the article
             - abstract: abstract of the article
+            - url: url of the article
     """
     API_RETURN_SIZE = 10
     URL_TEMPLETE = "https://api.springernature.com/metadata/json?q=keyword:{}&p={}&api_key={}"
@@ -57,5 +65,5 @@ if __name__ == "__main__":
     size = 10
     query = "covid"
     response = requests.get(url_templete.format(query, size, API_KEY))
-    records = response.json()['records']
-    print(parse_records(records))
+    records = parse_records(response.json()['records'])
+    corpus = get_corpus(records)
