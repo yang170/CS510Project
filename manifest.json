@@ -6,6 +6,11 @@
     "background": {
         "service_worker": "./background/background.js"
     },
+    "icons": {
+    "16": "icon.png",
+    "48": "icon2.png",
+    "128": "icon3.png"
+    },
     "permissions": ["storage", "activeTab", "scripting"],
     "host_permissions": [
         "http://localhost/*"
