@@ -1,14 +1,32 @@
+import re
 import requests
 from rank_bm25 import BM25Okapi
 from secret import API_KEY
 
 
-def parse_record(records):
+def parse_records(records):
     """
     A helper function to parse a record returned by Springer API
-    "return [{title: str, citations:}]"
     """
-    pass
+    DEFAULT_TEXT = 'Not avaliable'
+
+    if len(records) == 0:
+        return [{'title': DEFAULT_TEXT, 'publicationName': DEFAULT_TEXT,
+                 'abstract': DEFAULT_TEXT, 'doi': DEFAULT_TEXT,
+                 'url': DEFAULT_TEXT}]
+
+    results = ['title']
+    for record in records:
+        result = {}
+        result['title'] = record.get('title', DEFAULT_TEXT)
+        result['publicationName'] = record.get('publicationName', DEFAULT_TEXT)
+        result['abstract'] = record.get('abstract', DEFAULT_TEXT)
+        result['doi'] = record.get('doi', DEFAULT_TEXT)
+        result['url'] = DEFAULT_TEXT
+        if 'url' in record:
+            result['url'] = record['url'][0].get('value', None)
+        results.append(result)
+    return results
 
 
 def rank(text, size):
@@ -23,11 +41,15 @@ def rank(text, size):
             - doi: doi of the article
             - abstract: abstract of the article
     """
-    example_result = [{'title': 'refrence 1', 'publicationName': "Journal of Cell Communication and Signaling", 'dio': '10.1007/978-3-540-46138-8_46',
-                       'abstract': 'abstract1', 'url': "https://link.springer.com/article/10.1007/s11888-022-00476-z"},
-                      {'title': 'refrence 2', 'publicationName': "Journal of Cell Communication and Signaling", 'dio': '20.1007/978-3-540-46138-8_46',
-                       'abstract': 'abstract2', 'url': "https://link.springer.com/article/10.1007/s11888-022-00476-z"}]
-    return example_result
+    API_RETURN_SIZE = 10
+    URL_TEMPLETE = "https://api.springernature.com/metadata/json?q=keyword:{}&p={}&api_key={}"
+
+    response = requests.get(URL_TEMPLETE.format(
+        text, API_RETURN_SIZE, API_KEY))
+
+    records = parse_records(response.json()['records'])
+
+    return records
 
 
 if __name__ == "__main__":
@@ -37,4 +59,4 @@ if __name__ == "__main__":
     query = "covid"
     response = requests.get(url_templete.format(query, size, API_KEY))
     records = response.json()['records']
-    print(records)
+    print(parse_records(records))
