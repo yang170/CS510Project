@@ -6,7 +6,7 @@ def rank(text, size):
     Fetch top @code{size} docs related to the given @code{text}
     :text str: user input
     :size int: number of relevent docs to return
-    :return [{title: str, citations: str, dio: int, abstract: str}]:
+    :return [{title: str, citations: str, dio: str, abstract: str}]:
         a list of dictionaries, each dictionary contains four keys:
             - title: title of the article
             - citations: number of times the article has been cited
