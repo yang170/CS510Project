@@ -1,4 +1,3 @@
-import re
 import requests
 from rank_bm25 import BM25Okapi
 from secret import API_KEY
@@ -15,7 +14,7 @@ def parse_records(records):
                  'abstract': DEFAULT_TEXT, 'doi': DEFAULT_TEXT,
                  'url': DEFAULT_TEXT}]
 
-    results = ['title']
+    results = []
     for record in records:
         result = {}
         result['title'] = record.get('title', DEFAULT_TEXT)
