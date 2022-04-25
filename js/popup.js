@@ -37,7 +37,17 @@ getCurrentTab().then((res) => {
 
       Http.onreadystatechange = (_event) => {
         // TODO: error handling
-        document.getElementById("refrences").innerHTML = Http.responseText;
+          res = Http.responseText;
+          res_json = JSON.parse(res)
+          let str = "";
+          for (let i = 0; i < 10; i++) {
+              str += "<li>" + "Title: " + res_json[i].title + "<br>" + "<br>"
+                  + "Publication Name: " + res_json[i].publicationName + "<br>" + "<br>"
+                  + "Abstract: " + res_json[i].abstract + "<br>" + "<br>"
+                  + "Url: " + res_json[i].url + "<br>" + "<br>" + "</li>";
+          } 
+          document.getElementById("refrences").innerHTML = str
+          
       };
     }
   );
