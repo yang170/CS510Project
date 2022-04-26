@@ -17,6 +17,9 @@ def fetch_ref():
     if text is None:
         return Response(status=Status.bad_request())
 
+    if type(size) != int:
+        size = int(size)
+
     docs = bm25.rank(text, size)
     return Response(json.dumps(docs), status=Status.ok())
 

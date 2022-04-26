@@ -32,7 +32,7 @@ def parse_records(records):
 def get_corpus(records):
     corpus = []
     for record in records:
-        corpus.append(record['abstract'])
+        corpus.append(record['title'])
     return corpus
 
 
@@ -47,7 +47,6 @@ def get_top_k(scores, records, k):
     res = []
     for i in range(k):
         res.append(records[sorted_with_idx[i][1]])
-
     return res
 
 
