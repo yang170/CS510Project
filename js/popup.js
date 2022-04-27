@@ -51,7 +51,10 @@ getCurrentTab().then((res) => {
       Http.send();
 
       Http.onreadystatechange = (_event) => {
-        // TODO: error handling
+        if (Http.responseText.length == 0) {
+          return;
+        }
+
         let articles = JSON.parse(Http.responseText);
         let cards = "";
         articles.forEach((article) => {
