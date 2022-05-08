@@ -3,7 +3,7 @@
 ## Step 1. Load the extension
 
 0. Clone the repository
-1. Nevigate to the Chrome extension management page by typing chrome://extensions/ in your browser
+1. Navigate to the Chrome extension management page by typing chrome://extensions/ in your browser
 2. Enable developer mode (upper right conner)
 3. Click "Load unpacked" button
 4. Select the project folder
@@ -11,7 +11,7 @@
 
 ## Step 2. Run backend server
 
-0. Nevigate the folder where you cloned the repository
+0. Navigate the folder where you cloned the repository
 1. Install the dependencies
    ```bash
    pip install -r requirement.txt
