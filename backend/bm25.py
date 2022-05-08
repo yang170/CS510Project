@@ -2,7 +2,12 @@ import re
 import requests
 from rank_bm25 import BM25Okapi
 from secret import API_KEY
+from transformers import BertTokenizer, BertModel
+import torch
 
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+bertmodel = BertModel.from_pretrained("bert-base-uncased")
+bertmodel.eval()
 
 def parse_records(records):
     """
@@ -50,7 +55,7 @@ def get_top_k(scores, records, k):
     return res
 
 
-def rank(text, size):
+def rank(text, size, model:str='bm25'):
     """
     Fetch top @code{size} docs related to the given @code{text}
     :text str: user input
@@ -72,8 +77,17 @@ def rank(text, size):
     records = parse_records(response.json()['records'])
 
     corpus = [re.split(RE_RULE, doc.lower()) for doc in get_corpus(records)]
-    bm25 = BM25Okapi(corpus)
-    scores = bm25.get_scores(re.split(RE_RULE, text.lower()))
+    if model=='bm25':
+        bm25 = BM25Okapi(corpus)
+        scores = bm25.get_scores(re.split(RE_RULE, text.lower()))
+    elif model=='bert':
+        corpus = [' '.join(doc) for doc in corpus]
+        with torch.no_grad():
+            doc_tokens = tokenizer.batch_encode_plus(corpus, padding=True, return_tensors='pt')
+            cls_embs = bertmodel(**doc_tokens)['last_hidden_state'][:, 0, :]
+            doc_tokens = tokenizer.encode(text.lower(), padding=True, return_tensors='pt')
+            query_embs = bertmodel(doc_tokens)['last_hidden_state'][:, 0, :]
+            scores = torch.matmul(cls_embs, query_embs.T).squeeze(-1).numpy()
 
     return get_top_k(scores, records, size)
 
