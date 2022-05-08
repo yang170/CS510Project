@@ -87,6 +87,7 @@ if __name__ == "__main__":
     records = parse_records(response.json()['records'])
     split_str = '-| '
     corpus = [re.split(split_str, doc.lower()) for doc in get_corpus(records)]
+    print(get_corpus(records))
 
     bm25 = BM25Okapi(corpus)
     scores = bm25.get_scores(re.split(split_str, query.lower()))
