@@ -11,16 +11,22 @@
 
 ## Step 2. Run backend server
 
-0. Navigate the folder where you cloned the repository
-1. Install the dependencies
+1. Navigate the folder where you cloned the repository
+2. Install the dependencies
    ```bash
    pip install -r requirement.txt
    ```
-2. Go the the backend folder
+3. Go the the backend folder
    ```bash
    cd backend
    ```
-3. Run the backend server
+4. Obtain an API key from the [Spinger Nature API portal](https://dev.springernature.com/)
+
+5. In the backend folder, create a file and name it as `secret.py`, put your API key inside the file in the following format
+   ```python
+   API_KEY = 'YOUR_KEY'
+   ```
+6. Run the backend server
    ```
    python api.py
    ```

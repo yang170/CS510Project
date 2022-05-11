@@ -46,7 +46,7 @@ getCurrentTab().then((res) => {
       document.getElementById("selectedText").innerHTML = selectedText;
 
       let Http = new XMLHttpRequest();
-      let url = "http://localhost:5000/ref?size=3&text=" + selectedText;
+      let url = "http://localhost:5000/ref?size=5&text=" + selectedText;
       Http.open("GET", url);
       Http.send();
 
