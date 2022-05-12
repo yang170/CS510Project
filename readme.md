@@ -2,12 +2,12 @@
 
 ## Step 1. Load the extension
 
-0. Clone the repository
-1. Navigate to the Chrome extension management page by typing chrome://extensions/ in your browser
-2. Enable developer mode (upper right conner)
-3. Click "Load unpacked" button
-4. Select the project folder
-5. That's it 🥳
+1. Clone the repository
+2. Navigate to the Chrome extension management page by typing chrome://extensions/ in your browser
+3. Enable developer mode (upper right conner)
+4. Click "Load unpacked" button
+5. Select the project folder
+6. That's it 🥳
 
 ## Step 2. Run backend server
 
